@@ -1,7 +1,7 @@
 package ru.nsu.oop;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-public class mainTest {
+public class MainTest {
     @Test
     void testSortTypical() {
         int[] arr = {5, 4, 3, 2, 1};
