@@ -1,8 +1,20 @@
 package ru.nsu.oop;
+
 import java.util.Random;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+/**
+ * Класс содержит реализацию алгоритма пирамидальной сортировки (heapsort)
+ * и демонстрацию его работы, включая замер времени выполнения.
+ */
 public class Main {
+
+    /**
+     * Сортирует массив целых чисел по возрастанию с использованием
+     * алгоритма пирамидальной сортировки (heapsort). Сортировка выполняется
+     * на месте (in-place), то есть исходный массив изменяется.
+     *
+     * @param arr массив целых чисел, который необходимо отсортировать
+     */
     public static void heapSort(int[] arr) {
         int n = arr.length;
 
@@ -22,6 +34,15 @@ public class Main {
         }
     }
 
+    /**
+     * Восстанавливает свойство max-кучи для поддерева с корнем в узле root.
+     * Если один из потомков больше корня, они меняются местами, и метод
+     * рекурсивно применяется к соответствующему поддереву.
+     *
+     * @param arr  массив, представляющий кучу
+     * @param size текущий размер кучи (может быть меньше длины массива)
+     * @param root индекс корня поддерева, для которого восстанавливается куча
+     */
     private static void heapify(int[] arr, int size, int root) {
         int largest = root;
         int left = 2 * root + 1;
@@ -40,6 +61,15 @@ public class Main {
             heapify(arr, size, largest);
         }
     }
+
+    /**
+     * Точка входа в программу. Демонстрирует работу пирамидальной сортировки
+     * на примере массива из пяти элементов, а также выполняет замер времени
+     * сортировки для массивов различных размеров, чтобы подтвердить
+     * теоретическую сложность O(n log n).
+     *
+     * @param args аргументы командной строки (не используются)
+     */
     public static void main(String[] args) {
         System.out.println("Демонстрация пирамидальной сортировки");
 
@@ -64,7 +94,16 @@ public class Main {
         System.out.printf("Hello and welcome!");
 
 
+
     }
+
+    /**
+     * Генерирует массив случайных целых чисел в диапазоне от 0 (включительно)
+     * до 1_000_000 (исключительно).
+     *
+     * @param n количество элементов в массиве
+     * @return массив случайных чисел заданной длины
+     */
     private static int[] generateRandomArray(int n) {
         Random rand = new Random();
         int[] arr = new int[n];
@@ -74,6 +113,12 @@ public class Main {
         return arr;
     }
 
+    /**
+     * Выводит элементы массива в стандартный поток вывода, разделяя их пробелом.
+     * После вывода всех элементов переводит курсор на новую строку.
+     *
+     * @param arr массив, который необходимо вывести
+     */
     private static void printArray(int[] arr) {
         for (int x : arr) {
             System.out.print(x + " ");
