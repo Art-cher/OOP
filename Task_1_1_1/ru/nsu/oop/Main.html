@@ -76,6 +76,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Main</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Класс содержит реализацию алгоритма пирамидальной сортировки (heapsort)
+ и демонстрацию его работы, включая замер времени выполнения.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,10 +107,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#heapSort(int%5B%5D)" class="member-name-link">heapSort</a><wbr>(int[]&nbsp;arr)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Сортирует массив целых чисел по возрастанию с использованием
+ алгоритма пирамидальной сортировки (heapsort).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#main(java.lang.String%5B%5D)" class="member-name-link">main</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Точка входа в программу.</div>
+</div>
 </div>
 </div>
 </div>
@@ -144,12 +151,27 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="heapSort(int[])">
 <h3>heapSort</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">heapSort</span><wbr><span class="parameters">(int[]&nbsp;arr)</span></div>
+<div class="block">Сортирует массив целых чисел по возрастанию с использованием
+ алгоритма пирамидальной сортировки (heapsort). Сортировка выполняется
+ на месте (in-place), то есть исходный массив изменяется.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>arr</code> - массив целых чисел, который необходимо отсортировать</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="main(java.lang.String[])">
 <h3>main</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">main</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</span></div>
+<div class="block">Точка входа в программу. Демонстрирует работу пирамидальной сортировки
+ на примере массива из пяти элементов, а также выполняет замер времени
+ сортировки для массивов различных размеров, чтобы подтвердить
+ теоретическую сложность O(n log n).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>args</code> - аргументы командной строки (не используются)</dd>
+</dl>
 </section>
 </li>
 </ul>
