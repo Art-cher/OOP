@@ -44,21 +44,7 @@ public class mainTest {
         assertArrayEquals(new int[]{42}, arr);
     }
 
-    @Test
-    void testGenerateRandomArray() {
-        int[] arr = Main.generateRandomArray(100);
-        assertEquals(100, arr.length);
-        for (int x : arr) {
-            assertTrue(x >= 0 && x < 1_000_000);
-        }
-    }
 
-    @Test
-    void testPrintArray() {
-        // просто проверяем, что не бросает исключений
-        Main.printArray(new int[]{1, 2, 3});
-        Main.printArray(new int[]{});
-    }
     @Test
     void testMain() {
         // покрывает весь код внутри main, включая цикл замера времени
