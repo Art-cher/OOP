@@ -24,21 +24,27 @@ class GameTest {
 
     @Test
     void testStartRunsOneRoundAndStops() {
-        // Добавляем карты для раздачи и возможных доборов
-        for (int i = 0; i < 10; i++) {
-            testDeck.addCard(new Card(Suit.SPADES, Rank.TWO));
+        // 4 карты по 10: игрок 20, дилер 20 — дилер не добирает, колода не истощается
+        for (int i = 0; i < 4; i++) {
+            testDeck.addCard(new Card(Suit.SPADES, Rank.TEN));
         }
         view.addPlayerAction(false); // игрок останавливается
         view.setThrowOnShowResult(true);
+
         assertThrows(RuntimeException.class, () -> game.start());
+
         assertTrue(view.getCalls().contains("showWelcome"));
         assertTrue(view.getCalls().contains("showRoundStart 1"));
         assertTrue(view.getCalls().contains("showPlayerHand"));
         assertTrue(view.getCalls().contains("showDealerHand true"));
         assertTrue(view.getCalls().contains("showPlayerTurn"));
         assertTrue(view.getCalls().contains("showDealerTurn"));
-        assertTrue(view.getCalls().contains("showDealerOpensHiddenCard"));
-        assertTrue(view.getCalls().stream().anyMatch(c -> c.startsWith("showResult")));
+
+        // У этих событий в StubView есть аргументы в логе — сравниваем по префиксу
+        assertTrue(view.getCalls().stream()
+                .anyMatch(c -> c.startsWith("showDealerOpensHiddenCard")));
+        assertTrue(view.getCalls().stream()
+                .anyMatch(c -> c.startsWith("showResult")));
     }
 
     @Test
