@@ -97,17 +97,13 @@ public class ConsoleView implements View {
     @Override
     public void showResult(RoundResult result, int playerWins, int dealerWins) {
         switch (result) {
-            case PLAYER_WIN ->
-                    System.out.println("Вы выиграли раунд! Счет "
+            case PLAYER_WIN -> System.out.println("Вы выиграли раунд! Счет "
                             + playerWins + ":" + dealerWins + " в вашу пользу.");
-            case DEALER_WIN ->
-                    System.out.println("Дилер выиграл раунд. Счет "
+            case DEALER_WIN -> System.out.println("Дилер выиграл раунд. Счет "
                             + playerWins + ":" + dealerWins + ".");
-            case DRAW ->
-                    System.out.println("Ничья. Счет "
+            case DRAW -> System.out.println("Ничья. Счет "
                             + playerWins + ":" + dealerWins + ".");
-            default -> {
-                // Все варианты RoundResult обработаны; ветка нужна для checkstyle.
+            default -> {// Все варианты RoundResult обработаны; ветка нужна для checkstyle.
             }
         }
     }
