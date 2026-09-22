@@ -1,10 +1,10 @@
 package ru.nsu.oop;
 
-
 /**
  * Управляет игровым процессом: раздачей, ходами, определением победителя
- * и ведением счёта. Работает только с моделью и через интерфейс {@link View} —
- * не знает ни одного текста и ни одной детали консоли.
+ * и ведением счёта.
+ * Работает только с моделью и через интерфейс {@link View} — не знает ни одного
+ * текста и ни одной детали консоли.
  */
 public class Game {
 
@@ -15,6 +15,8 @@ public class Game {
     private int roundNumber;
 
     /**
+     * Создаёт игру.
+     *
      * @param view представление, через которое игра общается с пользователем
      */
     public Game(View view) {
@@ -26,7 +28,8 @@ public class Game {
     }
 
     /**
-     * Запускает бесконечный цикл раундов. Каждый раунд начинается с чистых рук.
+     * Запускает бесконечный цикл раундов.
+     * Каждый раунд начинается с чистых рук.
      */
     public void start() {
         view.showWelcome();
@@ -59,7 +62,8 @@ public class Game {
     }
 
     /**
-     * Раздаёт по две карты игроку и дилеру. Вторая карта дилера остаётся закрытой.
+     * Раздаёт по две карты игроку и дилеру.
+     * Вторая карта дилера остаётся закрытой.
      */
     private void dealInitialCards() {
         player.addCard(deck.drawCard());
@@ -110,9 +114,10 @@ public class Game {
 
     /**
      * Сравнивает суммы рук и определяет исход раунда.
+     *
+     * @return результат раунда
      */
     private RoundResult determineWinner() {
-        // Перебор важнее суммы
         if (player.isBust()) {
             return RoundResult.DEALER_WIN;
         }
@@ -132,12 +137,18 @@ public class Game {
     }
 
     /**
-     * Начисляет победу тому, кто выиграл раунд. При ничьей счёт не меняется.
+     * Начисляет победу тому, кто выиграл раунд.
+     * При ничьей счёт не меняется.
+     *
+     * @param result результат раунда
      */
     private void applyResult(RoundResult result) {
         switch (result) {
             case PLAYER_WIN -> player.incrementWins();
             case DEALER_WIN -> dealer.incrementWins();
+            default -> {
+                // DRAW — счёт не меняется
+            }
         }
     }
 }

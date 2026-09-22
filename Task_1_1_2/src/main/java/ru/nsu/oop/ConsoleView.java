@@ -3,7 +3,8 @@ package ru.nsu.oop;
 import java.util.Scanner;
 
 /**
- * Консольная реализация представления. Весь русский текст живёт здесь.
+ * Консольная реализация представления.
+ * Весь русский текст живёт здесь.
  */
 public class ConsoleView implements View {
 
@@ -44,7 +45,12 @@ public class ConsoleView implements View {
         System.out.println(sb + "\n");
     }
 
-
+    /**
+     * Форматирует руку игрока целиком вместе с итоговой суммой.
+     *
+     * @param hand рука
+     * @return строка вида {@code [Туз Пики (11), ...] ⇒ 21}
+     */
     private String formatHand(Hand hand) {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < hand.size(); i++) {
@@ -72,14 +78,13 @@ public class ConsoleView implements View {
         System.out.println("Вы открыли карту " + formatCard(card, displayValue));
     }
 
-
     @Override
-    public void showDealerDrawsCard(Card card,  int displayValue) {
+    public void showDealerDrawsCard(Card card, int displayValue) {
         System.out.println("Дилер открывает карту " + formatCard(card, displayValue));
     }
 
     @Override
-    public void showDealerOpensHiddenCard(Card card,  int displayValue) {
+    public void showDealerOpensHiddenCard(Card card, int displayValue) {
         System.out.println("Дилер открывает закрытую карту " + formatCard(card, displayValue));
     }
 
@@ -92,24 +97,30 @@ public class ConsoleView implements View {
     @Override
     public void showResult(RoundResult result, int playerWins, int dealerWins) {
         switch (result) {
-            case PLAYER_WIN:
-                System.out.println("Вы выиграли раунд! Счет "
-                        + playerWins + ":" + dealerWins + " в вашу пользу.");
-                break;
-            case DEALER_WIN:
-                System.out.println("Дилер выиграл раунд. Счет "
-                        + playerWins + ":" + dealerWins + ".");
-                break;
-            case DRAW:
-                System.out.println("Ничья. Счет "
-                        + playerWins + ":" + dealerWins + ".");
-                break;
+            case PLAYER_WIN ->
+                    System.out.println("Вы выиграли раунд! Счет "
+                            + playerWins + ":" + dealerWins + " в вашу пользу.");
+            case DEALER_WIN ->
+                    System.out.println("Дилер выиграл раунд. Счет "
+                            + playerWins + ":" + dealerWins + ".");
+            case DRAW ->
+                    System.out.println("Ничья. Счет "
+                            + playerWins + ":" + dealerWins + ".");
+            default -> {
+                // Все варианты RoundResult обработаны; ветка нужна для checkstyle.
+            }
         }
     }
 
     // ============ Форматирование ============
 
-    /** Возвращает текст одной карты в формате ТЗ: «Пиковая дама (10)». */
+    /**
+     * Возвращает текст одной карты в формате ТЗ: «Пиковая дама (10)».
+     *
+     * @param card         карта
+     * @param displayValue значение карты для отображения
+     * @return строковое представление карты
+     */
     private String formatCard(Card card, int displayValue) {
         Rank rank = card.rank();
         Suit suit = card.suit();
@@ -121,7 +132,12 @@ public class ConsoleView implements View {
         return name + " (" + displayValue + ")";
     }
 
-    /** Русское название достоинства. */
+    /**
+     * Возвращает русское название достоинства карты.
+     *
+     * @param r достоинство
+     * @return название достоинства
+     */
     private String rankName(Rank r) {
         return switch (r) {
             case TWO -> "Двойка";
@@ -140,7 +156,12 @@ public class ConsoleView implements View {
         };
     }
 
-    /** Базовое имя масти: «Пики», «Червы», «Бубны», «Трефы». */
+    /**
+     * Возвращает базовое имя масти: «Пики», «Червы», «Бубны», «Трефы».
+     *
+     * @param s масть
+     * @return название масти в форме существительного
+     */
     private String suitBase(Suit s) {
         return switch (s) {
             case SPADES -> "Пики";
@@ -150,7 +171,12 @@ public class ConsoleView implements View {
         };
     }
 
-    /** Прилагательное женского рода: «Пиковая», «Червовая». */
+    /**
+     * Возвращает прилагательное женского рода для масти: «Пиковая», «Червовая».
+     *
+     * @param s масть
+     * @return прилагательное женского рода
+     */
     private String suitFeminine(Suit s) {
         return switch (s) {
             case SPADES -> "Пиковая";
@@ -160,7 +186,12 @@ public class ConsoleView implements View {
         };
     }
 
-    /** Прилагательное мужского рода: «Пиковый», «Червовый». */
+    /**
+     * Возвращает прилагательное мужского рода для масти: «Пиковый», «Червовый».
+     *
+     * @param s масть
+     * @return прилагательное мужского рода
+     */
     private String suitMasculine(Suit s) {
         return switch (s) {
             case SPADES -> "Пиковый";

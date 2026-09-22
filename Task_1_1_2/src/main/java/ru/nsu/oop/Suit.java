@@ -1,5 +1,15 @@
 package ru.nsu.oop;
 
+/**
+ * Масть игральной карты.
+ */
 public enum Suit {
-    SPADES, HEARTS, DIAMONDS, CLUBS
+    /** Пики. */
+    SPADES,
+    /** Червы. */
+    HEARTS,
+    /** Бубны. */
+    DIAMONDS,
+    /** Трефы. */
+    CLUBS
 }
