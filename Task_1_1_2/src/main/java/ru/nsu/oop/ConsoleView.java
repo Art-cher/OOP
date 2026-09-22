@@ -72,6 +72,7 @@ public class ConsoleView implements View {
         System.out.println("Вы открыли карту " + formatCard(card, displayValue));
     }
 
+
     @Override
     public void showDealerDrawsCard(Card card,  int displayValue) {
         System.out.println("Дилер открывает карту " + formatCard(card, displayValue));

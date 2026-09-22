@@ -80,7 +80,7 @@ public class Game {
             view.showPlayerDrawsCard(card, displayValue);
             view.showPlayerHand(player.getHand());
             view.showDealerHand(dealer.getHand(), true);
-            if (player.isBlackjack() || player.isBlackjack()) {
+            if (player.isBust() || player.isBlackjack()) {
                 return;
             }
         }
