@@ -103,7 +103,8 @@ public class ConsoleView implements View {
                             + playerWins + ":" + dealerWins + ".");
             case DRAW -> System.out.println("Ничья. Счет "
                             + playerWins + ":" + dealerWins + ".");
-            default -> {// Все варианты RoundResult обработаны; ветка нужна для checkstyle.
+            default -> {
+                // Все варианты RoundResult обработаны; ветка нужна для checkstyle.
             }
         }
     }

@@ -1,10 +1,14 @@
 package ru.nsu.oop;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class GameTest {
 
@@ -100,7 +104,8 @@ class GameTest {
         dealerTurn.setAccessible(true);
         dealerTurn.invoke(game);
         assertEquals(3, dealer.getHand().size());
-        assertTrue(view.getCalls().stream().anyMatch(c -> c.startsWith("showDealerOpensHiddenCard")));
+        assertTrue(view.getCalls().stream()
+                .anyMatch(c -> c.startsWith("showDealerOpensHiddenCard")));
         assertTrue(view.getCalls().stream().anyMatch(c -> c.startsWith("showDealerDrawsCard")));
     }
 
@@ -109,12 +114,14 @@ class GameTest {
         Method determineWinner = Game.class.getDeclaredMethod("determineWinner");
         determineWinner.setAccessible(true);
         Player player = getPlayer();
-        Dealer dealer = getDealer();
 
         // Игрок перебрал
         player.addCard(new Card(Suit.SPADES, Rank.KING));
         player.addCard(new Card(Suit.HEARTS, Rank.KING));
         player.addCard(new Card(Suit.DIAMONDS, Rank.TWO)); // сумма 22
+
+        Dealer dealer = getDealer();
+
         dealer.addCard(new Card(Suit.SPADES, Rank.TEN));
         dealer.addCard(new Card(Suit.HEARTS, Rank.SEVEN)); // сумма 17
         RoundResult result = (RoundResult) determineWinner.invoke(game);
