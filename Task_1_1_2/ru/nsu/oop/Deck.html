@@ -76,6 +76,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Deck</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Колода карт из нескольких стандартных наборов.
+ Поддерживает перемешивание и выдачу карт с автоматическим восстановлением,
+ когда карты заканчиваются.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -88,7 +91,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Deck</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создаёт колоду из 8 стандартных наборов
+ и перемешивает её.</div>
+</div>
 </div>
 </section>
 </li>
@@ -105,7 +111,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Card.html" title="class in ru.nsu.oop">Card</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawCard()" class="member-name-link">drawCard</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Выдаёт верхнюю карту из колоды.</div>
+</div>
 </div>
 </div>
 </div>
@@ -127,6 +135,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Deck</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Deck</span>()</div>
+<div class="block">Создаёт колоду из 8 стандартных наборов
+ и перемешивает её.</div>
 </section>
 </li>
 </ul>
@@ -141,6 +151,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="drawCard()">
 <h3>drawCard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Card.html" title="class in ru.nsu.oop">Card</a></span>&nbsp;<span class="element-name">drawCard</span>()</div>
+<div class="block">Выдаёт верхнюю карту из колоды.
+ Если карты закончились, колода автоматически заполняется и перемешивается заново.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>выданная карта</dd>
+</dl>
 </section>
 </li>
 </ul>

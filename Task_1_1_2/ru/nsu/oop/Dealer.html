@@ -78,6 +78,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Dealer</span>
 <span class="extends-implements">extends <a href="Participant.html" title="class in ru.nsu.oop">Participant</a></span></div>
+<div class="block">Дилер в блэкджеке.
+ Знает, какая из его карт закрыта, и по какому правилу добирает карты.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -116,11 +118,13 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHiddenCardIndex()" class="member-name-link">getHiddenCardIndex</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает индекс закрытой карты дилера.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shouldDraw()" class="member-name-link">shouldDraw</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Возвращает true, если дилер обязан взять ещё одну карту.</div>
+<div class="block">Возвращает <code>true</code>, если дилер обязан взять ещё одну карту.</div>
 </div>
 </div>
 </div>
@@ -160,14 +164,23 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getHiddenCardIndex()">
 <h3>getHiddenCardIndex</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHiddenCardIndex</span>()</div>
+<div class="block">Возвращает индекс закрытой карты дилера.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>индекс закрытой карты</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="shouldDraw()">
 <h3>shouldDraw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldDraw</span>()</div>
-<div class="block">Возвращает true, если дилер обязан взять ещё одну карту.
+<div class="block">Возвращает <code>true</code>, если дилер обязан взять ещё одну карту.
  Правило: брать, пока сумма меньше 17.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если дилер должен добрать карту</dd>
+</dl>
 </section>
 </li>
 </ul>

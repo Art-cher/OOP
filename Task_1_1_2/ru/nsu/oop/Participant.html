@@ -80,6 +80,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Participant</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Базовый класс участника игры (игрока или дилера).
+ Хранит руку, счёт побед и общие для всех участников операции.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -94,10 +96,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected final <a href="Hand.html" title="class in ru.nsu.oop">Hand</a></code></div>
 <div class="col-second even-row-color"><code><a href="#hand" class="member-name-link">hand</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Рука участника.</div>
+</div>
 <div class="col-first odd-row-color"><code>protected int</code></div>
 <div class="col-second odd-row-color"><code><a href="#wins" class="member-name-link">wins</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Количество выигранных раундов.</div>
+</div>
 </div>
 </section>
 </li>
@@ -110,7 +116,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Participant</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создаёт участника с пустой рукой и нулевым счётом.</div>
+</div>
 </div>
 </section>
 </li>
@@ -127,25 +135,39 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addCard(ru.nsu.oop.Card)" class="member-name-link">addCard</a><wbr>(<a href="Card.html" title="class in ru.nsu.oop">Card</a>&nbsp;card)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Добавляет карту в руку участника.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Hand.html" title="class in ru.nsu.oop">Hand</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHand()" class="member-name-link">getHand</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает руку участника.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWins()" class="member-name-link">getWins</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает количество выигранных раундов.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incrementWins()" class="member-name-link">incrementWins</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Увеличивает счёт побед на единицу.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBlackjack()" class="member-name-link">isBlackjack</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Проверяет, собрал ли участник блэкджек.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBust()" class="member-name-link">isBust</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Проверяет, перебрал ли участник (сумма карт больше 21).</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetHand()" class="member-name-link">resetHand</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Очищает руку участника, начиная новый раунд.</div>
+</div>
 </div>
 </div>
 </div>
@@ -167,12 +189,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hand">
 <h3>hand</h3>
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="Hand.html" title="class in ru.nsu.oop">Hand</a></span>&nbsp;<span class="element-name">hand</span></div>
+<div class="block">Рука участника.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="wins">
 <h3>wins</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">wins</span></div>
+<div class="block">Количество выигранных раундов.</div>
 </section>
 </li>
 </ul>
@@ -187,6 +211,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Participant</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Participant</span>()</div>
+<div class="block">Создаёт участника с пустой рукой и нулевым счётом.</div>
 </section>
 </li>
 </ul>
@@ -201,42 +226,69 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addCard(ru.nsu.oop.Card)">
 <h3>addCard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addCard</span><wbr><span class="parameters">(<a href="Card.html" title="class in ru.nsu.oop">Card</a>&nbsp;card)</span></div>
+<div class="block">Добавляет карту в руку участника.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>card</code> - карта, которую нужно добавить</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getHand()">
 <h3>getHand</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Hand.html" title="class in ru.nsu.oop">Hand</a></span>&nbsp;<span class="element-name">getHand</span>()</div>
+<div class="block">Возвращает руку участника.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>текущая рука</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getWins()">
 <h3>getWins</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWins</span>()</div>
+<div class="block">Возвращает количество выигранных раундов.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>число побед</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="incrementWins()">
 <h3>incrementWins</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">incrementWins</span>()</div>
+<div class="block">Увеличивает счёт побед на единицу.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="resetHand()">
 <h3>resetHand</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetHand</span>()</div>
+<div class="block">Очищает руку участника, начиная новый раунд.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="isBlackjack()">
 <h3>isBlackjack</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBlackjack</span>()</div>
+<div class="block">Проверяет, собрал ли участник блэкджек.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если у участника блэкджек</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isBust()">
 <h3>isBust</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBust</span>()</div>
+<div class="block">Проверяет, перебрал ли участник (сумма карт больше 21).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если сумма карт больше 21</dd>
+</dl>
 </section>
 </li>
 </ul>

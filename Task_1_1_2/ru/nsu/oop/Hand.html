@@ -76,6 +76,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Hand</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Рука участника: набор карт с подсчётом суммы и обработкой тузов.
+ Туз считается как 11 до тех пор, пока это не приводит к перебору;
+ иначе он понижается до 1.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -88,7 +91,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Hand</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создаёт пустую руку.</div>
+</div>
 </div>
 </section>
 </li>
@@ -105,10 +110,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addCard(ru.nsu.oop.Card)" class="member-name-link">addCard</a><wbr>(<a href="Card.html" title="class in ru.nsu.oop">Card</a>&nbsp;card)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Добавляет карту в руку.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Очищает руку.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Card.html" title="class in ru.nsu.oop">Card</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCard(int)" class="member-name-link">getCard</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -121,13 +130,19 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSum()" class="member-name-link">getSum</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает сумму карт в руке с учётом понижения тузов.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBlackjack()" class="member-name-link">isBlackjack</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Проверяет, собрана ли в руке комбинация «блэкджек».</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBust()" class="member-name-link">isBust</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Проверяет, перебрала ли рука (сумма карт больше 21).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#size()" class="member-name-link">size</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -154,6 +169,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Hand</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Hand</span>()</div>
+<div class="block">Создаёт пустую руку.</div>
 </section>
 </li>
 </ul>
@@ -168,30 +184,52 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addCard(ru.nsu.oop.Card)">
 <h3>addCard</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addCard</span><wbr><span class="parameters">(<a href="Card.html" title="class in ru.nsu.oop">Card</a>&nbsp;card)</span></div>
+<div class="block">Добавляет карту в руку.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>card</code> - карта для добавления</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getSum()">
 <h3>getSum</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getSum</span>()</div>
+<div class="block">Возвращает сумму карт в руке с учётом понижения тузов.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>сумма карт</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isBlackjack()">
 <h3>isBlackjack</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBlackjack</span>()</div>
+<div class="block">Проверяет, собрана ли в руке комбинация «блэкджек».
+ Блэкджек — это ровно две карты, дающие в сумме 21.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если у руки блэкджек</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isBust()">
 <h3>isBust</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isBust</span>()</div>
+<div class="block">Проверяет, перебрала ли рука (сумма карт больше 21).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd><code>true</code>, если сумма карт больше 21</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="clear()">
 <h3>clear</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
+<div class="block">Очищает руку.</div>
 </section>
 </li>
 <li>
@@ -199,6 +237,10 @@ loadScripts(document, 'script');</script>
 <h3>size</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block">Возвращает количество карт в руке.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>число карт</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -206,11 +248,13 @@ loadScripts(document, 'script');</script>
 <h3>getDisplayValue</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getDisplayValue</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
 <div class="block">Возвращает значение карты для отображения с учётом понижения тузов.
- Например, если рука [Туз, 9, 9], то getSum() == 19,
- а getDisplayValue(0) == 1, потому что туз понижен.</div>
+ Например, если рука [Туз, 9, 9], то <code>getSum() == 19</code>,
+ а <code>getDisplayValue(0) == 1</code>, потому что туз понижен.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - позиция карты</dd>
+<dt>Returns:</dt>
+<dd>значение карты для отображения</dd>
 </dl>
 </section>
 </li>
@@ -221,7 +265,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Возвращает карту по индексу.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>index</code> - позиция карты, от 0 до size() - 1</dd>
+<dd><code>index</code> - позиция карты, от 0 до <code>size() - 1</code></dd>
 <dt>Returns:</dt>
 <dd>карта на указанной позиции</dd>
 </dl>
