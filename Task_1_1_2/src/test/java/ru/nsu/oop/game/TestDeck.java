@@ -1,11 +1,11 @@
 package ru.nsu.oop.game;
 
-import ru.nsu.oop.cards.Card;
-import ru.nsu.oop.cards.Deck;
-
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Queue;
+
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Deck;
 
 /**
  * Колода с заранее заданной последовательностью карт.

@@ -1,13 +1,13 @@
 package ru.nsu.oop.game;
 
-import ru.nsu.oop.cards.Card;
-import ru.nsu.oop.cards.Hand;
-import ru.nsu.oop.view.View;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Hand;
+import ru.nsu.oop.view.View;
 
 /**
  * Заглушка представления для тестов.

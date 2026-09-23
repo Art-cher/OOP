@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,7 +112,8 @@ class ConsoleViewTest {
         ConsoleView view = new ConsoleView();
         Card card = new Card(Suit.DIAMONDS, Rank.FOUR);
         view.showDealerOpensHiddenCard(card, 4);
-        assertTrue(outContent.toString().contains("Дилер открывает закрытую карту Четвёрка Бубны (4)"));
+        assertTrue(outContent.toString()
+                .contains("Дилер открывает закрытую карту Четвёрка Бубны (4)"));
     }
 
     @Test

@@ -1,10 +1,10 @@
 package ru.nsu.oop.view;
 
+import java.util.Scanner;
+
 import ru.nsu.oop.cards.Card;
 import ru.nsu.oop.cards.Hand;
 import ru.nsu.oop.game.RoundResult;
-
-import java.util.Scanner;
 
 /**
  * Консольная реализация представления.

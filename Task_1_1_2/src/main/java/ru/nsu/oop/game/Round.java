@@ -2,9 +2,9 @@ package ru.nsu.oop.game;
 
 import ru.nsu.oop.player.Dealer;
 import ru.nsu.oop.player.Player;
-import ru.nsu.oop.view.View;
 import ru.nsu.oop.cards.Card;
 import ru.nsu.oop.cards.Deck;
+import ru.nsu.oop.view.View;
 
 /**
  * Один раунд блэкджека: раздача, ходы, определение победителя.
@@ -16,6 +16,15 @@ public class Round {
     private final View view;
     private final int number;
 
+    /**
+     * Создаёт раунд с заданным номером.
+     *
+     * @param deck   колода
+     * @param player игрок
+     * @param dealer дилер
+     * @param view   представление
+     * @param number номер раунда
+     */
     public Round(Deck deck, Player player, Dealer dealer, View view, int number) {
         this.deck = deck;
         this.player = player;

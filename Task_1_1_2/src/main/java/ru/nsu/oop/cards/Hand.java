@@ -98,7 +98,9 @@ public class Hand {
         int aces = 0;
         for (Card c : cards) {
             baseSum += c.getValue();
-            if (c.isAce()) aces++;
+            if (c.isAce()) {
+                aces++;
+            }
         }
         int reduced = 0;
         int s = baseSum;
