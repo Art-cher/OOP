@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.view;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,6 +8,11 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Hand;
+import ru.nsu.oop.cards.Rank;
+import ru.nsu.oop.cards.Suit;
+import ru.nsu.oop.game.RoundResult;
 
 class ConsoleViewTest {
 

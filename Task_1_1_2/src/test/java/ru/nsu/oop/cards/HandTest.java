@@ -1,8 +1,6 @@
-package ru.nsu.oop;
+package ru.nsu.oop.cards;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +11,6 @@ class HandTest {
         Hand hand = new Hand();
         assertEquals(0, hand.size());
         assertEquals(0, hand.getSum());
-        assertFalse(hand.isBlackjack());
-        assertFalse(hand.isBust());
     }
 
     @Test
@@ -76,12 +72,10 @@ class HandTest {
         Hand hand = new Hand();
         hand.addCard(new Card(Suit.SPADES, Rank.ACE));
         hand.addCard(new Card(Suit.HEARTS, Rank.KING));
-        assertTrue(hand.isBlackjack());
         assertEquals(21, hand.getSum());
 
         // 21 с тремя картами не является блэкджеком
         hand.addCard(new Card(Suit.DIAMONDS, Rank.TWO));
-        assertFalse(hand.isBlackjack());
         assertEquals(13, hand.getSum()); // Ace reduced: 1 + 10 + 2 = 13
     }
 
@@ -92,7 +86,6 @@ class HandTest {
         hand.addCard(new Card(Suit.HEARTS, Rank.QUEEN));
         hand.addCard(new Card(Suit.DIAMONDS, Rank.TWO));
         assertEquals(22, hand.getSum());
-        assertTrue(hand.isBust());
     }
 
     @Test

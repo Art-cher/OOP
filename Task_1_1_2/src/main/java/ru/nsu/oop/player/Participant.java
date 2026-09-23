@@ -1,4 +1,7 @@
-package ru.nsu.oop;
+package ru.nsu.oop.player;
+
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Hand;
 
 /**
  * Базовый класс участника игры (игрока или дилера).
@@ -61,12 +64,12 @@ public abstract class Participant {
     }
 
     /**
-     * Проверяет, собрал ли участник блэкджек.
+     * Проверяет, забита ли рука участника.
      *
-     * @return {@code true}, если у участника блэкджек
+     * @return {@code true}, если рука участника забита
      */
-    public boolean isBlackjack() {
-        return hand.isBlackjack();
+    public boolean isEnd() {
+        return hand.getSum() >= 21;
     }
 
     /**
@@ -75,6 +78,6 @@ public abstract class Participant {
      * @return {@code true}, если сумма карт больше 21
      */
     public boolean isBust() {
-        return hand.isBust();
+        return hand.getSum() > 21;
     }
 }

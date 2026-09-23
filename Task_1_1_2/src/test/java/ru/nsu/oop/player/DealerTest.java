@@ -1,10 +1,13 @@
-package ru.nsu.oop;
+package ru.nsu.oop.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Rank;
+import ru.nsu.oop.cards.Suit;
 
 class DealerTest {
 

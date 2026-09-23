@@ -1,11 +1,11 @@
-package ru.nsu.oop;
+package ru.nsu.oop.player;
 
 /**
  * Дилер в блэкджеке.
  * Знает, какая из его карт закрыта, и по какому правилу добирает карты.
  */
 public class Dealer extends Participant {
-    private static final int HIDDEN_CARD = 1;
+    private static final int HIDDEN_CARD_INDEX = 1;
 
     /**
      * Возвращает индекс закрытой карты дилера.
@@ -13,7 +13,7 @@ public class Dealer extends Participant {
      * @return индекс закрытой карты
      */
     public int getHiddenCardIndex() {
-        return HIDDEN_CARD;
+        return HIDDEN_CARD_INDEX;
     }
 
     /**

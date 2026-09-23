@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.cards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,16 @@ import java.util.List;
  */
 public class Hand {
     private final List<Card> cards;
+    private int sum;
+    private int reducedAces;
 
     /**
      * Создаёт пустую руку.
      */
     public Hand() {
         this.cards = new ArrayList<>();
+        this.sum = 0;
+        this.reducedAces = 0;
     }
 
     /**
@@ -25,38 +29,16 @@ public class Hand {
      */
     public void addCard(Card card) {
         cards.add(card);
+        recalculate();
     }
 
     /**
-     * Возвращает сумму карт в руке с учётом понижения тузов.
+     * Возвращает сумму карт.
      *
      * @return сумма карт
      */
     public int getSum() {
-        int baseSum = 0;
-        for (Card c : cards) {
-            baseSum += c.getValue();
-        }
-        return baseSum - countReducedAces() * 10;
-    }
-
-    /**
-     * Проверяет, собрана ли в руке комбинация «блэкджек».
-     * Блэкджек — это ровно две карты, дающие в сумме 21.
-     *
-     * @return {@code true}, если у руки блэкджек
-     */
-    public boolean isBlackjack() {
-        return cards.size() == 2 && getSum() == 21;
-    }
-
-    /**
-     * Проверяет, перебрала ли рука (сумма карт больше 21).
-     *
-     * @return {@code true}, если сумма карт больше 21
-     */
-    public boolean isBust() {
-        return getSum() > 21;
+        return sum;
     }
 
     /**
@@ -64,6 +46,8 @@ public class Hand {
      */
     public void clear() {
         cards.clear();
+        this.sum = 0;
+        this.reducedAces = 0;
     }
 
     /**
@@ -89,8 +73,6 @@ public class Hand {
             return card.getValue();
         }
 
-        int reducedAces = countReducedAces();
-
         int aceOrder = 0;
         for (int i = 0; i < index; i++) {
             if (cards.get(i).isAce()) {
@@ -98,30 +80,7 @@ public class Hand {
             }
         }
 
-        return aceOrder < reducedAces ? 1 : 11;
-    }
-
-    /**
-     * Считает, сколько тузов понижено, чтобы сумма помещалась в 21.
-     *
-     * @return количество пониженных тузов
-     */
-    private int countReducedAces() {
-        int baseSum = 0;
-        int aces = 0;
-        for (Card c : cards) {
-            baseSum += c.getValue();
-            if (c.isAce()) {
-                aces++;
-            }
-        }
-        int reduced = 0;
-        int sum = baseSum;
-        while (sum > 21 && reduced < aces) {
-            sum -= 10;
-            reduced++;
-        }
-        return reduced;
+        return aceOrder < this.reducedAces ? 1 : 11;
     }
 
     /**
@@ -132,5 +91,22 @@ public class Hand {
      */
     public Card getCard(int index) {
         return cards.get(index);
+    }
+
+    private void recalculate() {
+        int baseSum = 0;
+        int aces = 0;
+        for (Card c : cards) {
+            baseSum += c.getValue();
+            if (c.isAce()) aces++;
+        }
+        int reduced = 0;
+        int s = baseSum;
+        while (s > 21 && reduced < aces) {
+            s -= 10;
+            reduced++;
+        }
+        this.sum = s;
+        this.reducedAces = reduced;
     }
 }

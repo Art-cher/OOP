@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.game;
 
 /**
  * Итог раунда: кто выиграл или ничья.

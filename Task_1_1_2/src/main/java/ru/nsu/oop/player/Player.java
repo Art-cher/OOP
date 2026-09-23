@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.player;
 
 /**
  * Игрок в блэкджеке.

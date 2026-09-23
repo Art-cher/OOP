@@ -1,49 +1,36 @@
-package ru.nsu.oop;
+package ru.nsu.oop.game;
+
+import ru.nsu.oop.player.Dealer;
+import ru.nsu.oop.player.Player;
+import ru.nsu.oop.view.View;
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Deck;
 
 /**
- * Управляет игровым процессом: раздачей, ходами, определением победителя
- * и ведением счёта.
- * Работает только с моделью и через интерфейс {@link View} — не знает ни одного
- * текста и ни одной детали консоли.
+ * Один раунд блэкджека: раздача, ходы, определение победителя.
  */
-public class Game {
-
+public class Round {
     private final Deck deck;
     private final Player player;
     private final Dealer dealer;
     private final View view;
-    private int roundNumber;
+    private final int number;
 
-    /**
-     * Создаёт игру.
-     *
-     * @param view представление, через которое игра общается с пользователем
-     */
-    public Game(View view) {
+    public Round(Deck deck, Player player, Dealer dealer, View view, int number) {
+        this.deck = deck;
+        this.player = player;
+        this.dealer = dealer;
         this.view = view;
-        this.deck = new Deck();
-        this.player = new Player();
-        this.dealer = new Dealer();
-        this.roundNumber = 0;
+        this.number = number;
     }
 
     /**
-     * Запускает бесконечный цикл раундов.
-     * Каждый раунд начинается с чистых рук.
+     * Проводит раунд от раздачи до показа результата.
+     *
+     * @return результат раунда
      */
-    public void start() {
-        view.showWelcome();
-        while (true) {
-            playRound();
-        }
-    }
-
-    /**
-     * Проводит один раунд: раздача, ход игрока, ход дилера, определение победителя.
-     */
-    private void playRound() {
-        roundNumber++;
-        view.showRoundStart(roundNumber);
+    public RoundResult play() {
+        view.showRoundStart(number);
 
         player.resetHand();
         dealer.resetHand();
@@ -53,12 +40,9 @@ public class Game {
         view.showDealerHand(dealer.getHand(), true);
 
         playerTurn();
-
         dealerTurn();
 
-        RoundResult result = determineWinner();
-        applyResult(result);
-        view.showResult(result, player.getWins(), dealer.getWins());
+        return determineWinner();
     }
 
     /**
@@ -77,6 +61,9 @@ public class Game {
      */
     private void playerTurn() {
         view.showPlayerTurn();
+        if (player.isEnd()) {
+            return;
+        }
         while (view.askPlayerAction()) {
             Card card = deck.drawCard();
             player.addCard(card);
@@ -84,7 +71,7 @@ public class Game {
             view.showPlayerDrawsCard(card, displayValue);
             view.showPlayerHand(player.getHand());
             view.showDealerHand(dealer.getHand(), true);
-            if (player.isBust() || player.isBlackjack()) {
+            if (player.isEnd()) {
                 return;
             }
         }
@@ -117,7 +104,7 @@ public class Game {
      *
      * @return результат раунда
      */
-    private RoundResult determineWinner() {
+    RoundResult determineWinner() {
         if (player.isBust()) {
             return RoundResult.DEALER_WIN;
         }
@@ -134,21 +121,5 @@ public class Game {
             return RoundResult.DEALER_WIN;
         }
         return RoundResult.DRAW;
-    }
-
-    /**
-     * Начисляет победу тому, кто выиграл раунд.
-     * При ничьей счёт не меняется.
-     *
-     * @param result результат раунда
-     */
-    private void applyResult(RoundResult result) {
-        switch (result) {
-            case PLAYER_WIN -> player.incrementWins();
-            case DEALER_WIN -> dealer.incrementWins();
-            default -> {
-                // DRAW — счёт не меняется
-            }
-        }
     }
 }

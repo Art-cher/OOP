@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Rank;
+import ru.nsu.oop.cards.Suit;
 
 class PlayerTest {
 
@@ -14,7 +17,7 @@ class PlayerTest {
         Player player = new Player();
         assertNotNull(player.getHand());
         assertEquals(0, player.getWins());
-        assertFalse(player.isBlackjack());
+        assertFalse(player.isEnd());
         assertFalse(player.isBust());
     }
 
@@ -42,11 +45,11 @@ class PlayerTest {
         Player player = new Player();
         player.addCard(new Card(Suit.SPADES, Rank.ACE));
         player.addCard(new Card(Suit.HEARTS, Rank.KING));
-        assertTrue(player.isBlackjack());
+        assertTrue(player.isEnd());
         assertFalse(player.isBust());
 
         player.addCard(new Card(Suit.DIAMONDS, Rank.TWO));
-        assertFalse(player.isBlackjack());
+        assertFalse(player.isEnd());
         assertFalse(player.isBust()); // сумма 13
 
         player.addCard(new Card(Suit.CLUBS, Rank.KING));

@@ -1,4 +1,8 @@
-package ru.nsu.oop;
+package ru.nsu.oop.view;
+
+import ru.nsu.oop.cards.Card;
+import ru.nsu.oop.cards.Hand;
+import ru.nsu.oop.game.RoundResult;
 
 /**
  * Контракт представления: описывает, что игра умеет сообщать пользователю

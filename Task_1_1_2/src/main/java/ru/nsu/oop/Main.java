@@ -1,5 +1,9 @@
 package ru.nsu.oop;
 
+import ru.nsu.oop.game.Game;
+import ru.nsu.oop.view.ConsoleView;
+import ru.nsu.oop.view.View;
+
 /**
  * Точка входа приложения: собирает игру и запускает её.
  */

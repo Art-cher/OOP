@@ -1,4 +1,4 @@
-package ru.nsu.oop;
+package ru.nsu.oop.cards;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +27,19 @@ public class Deck {
     }
 
     /**
+     * Выдаёт верхнюю карту из колоды.
+     * Если карты закончились, колода автоматически заполняется и перемешивается заново.
+     *
+     * @return выданная карта
+     */
+    public Card drawCard() {
+        if (cards.isEmpty()) {
+            reset();
+        }
+        return cards.remove(cards.size() - 1);
+    }
+
+    /**
      * Заполняет колоду всеми картами и перемешивает её.
      */
     private void fillAndShuffle() {
@@ -39,19 +52,6 @@ public class Deck {
         }
 
         Collections.shuffle(cards, random);
-    }
-
-    /**
-     * Выдаёт верхнюю карту из колоды.
-     * Если карты закончились, колода автоматически заполняется и перемешивается заново.
-     *
-     * @return выданная карта
-     */
-    public Card drawCard() {
-        if (cards.isEmpty()) {
-            reset();
-        }
-        return cards.remove(cards.size() - 1);
     }
 
     /**
