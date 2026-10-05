@@ -1,5 +1,10 @@
 package ru.nsu.oop.expression;
 
+import java.util.Map;
+
+/**
+ * Узел выражения, представляющий произведение двух подвыражений: {@code (left * right)}.
+ */
 public class Mul extends Expression {
     private final Expression left;
     private final Expression right;
@@ -10,17 +15,20 @@ public class Mul extends Expression {
     }
 
     @Override
-    public void print() {
-
+    public String toString() {
+        return "(" + left + "*" + right + ")";
     }
 
     @Override
     public Expression derivative(String var) {
-        return this;
+        return new Add(
+                new Mul(left.derivative(var), right),
+                new Mul(left, right.derivative(var))
+        );
     }
 
     @Override
-    public int eval(String assignments) {
-        return 0;
+    protected int eval(Map<String, Integer> vars) {
+        return left.eval(vars) * right.eval(vars);
     }
 }

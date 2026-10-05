@@ -1,5 +1,10 @@
 package ru.nsu.oop.expression;
 
+import java.util.Map;
+
+/**
+ * Узел выражения, представляющий разность двух подвыражений: {@code (left - right)}.
+ */
 public class Sub extends Expression {
     private final Expression left;
     private final Expression right;
@@ -10,17 +15,17 @@ public class Sub extends Expression {
     }
 
     @Override
-    public void print() {
-
+    public String toString() {
+        return "(" + left + "-" + right + ")";
     }
 
     @Override
     public Expression derivative(String var) {
-        return this;
+        return new Sub(left.derivative(var), right.derivative(var));
     }
 
     @Override
-    public int eval(String assignments) {
-        return 0;
+    protected int eval(Map<String, Integer> vars) {
+        return left.eval(vars) - right.eval(vars);
     }
 }

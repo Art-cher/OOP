@@ -1,5 +1,10 @@
 package ru.nsu.oop.expression;
 
+import java.util.Map;
+
+/**
+ * Узел выражения, представляющий целочисленную константу.
+ */
 public class Number extends Expression {
     private final int value;
 
@@ -7,19 +12,18 @@ public class Number extends Expression {
         this.value = value;
     }
 
-
     @Override
-    public void print() {
-
+    public String toString() {
+        return String.valueOf(value);
     }
 
     @Override
     public Expression derivative(String var) {
-        return this;
+        return new Number(0);
     }
 
     @Override
-    public int eval(String assignments) {
+    protected int eval(Map<String, Integer> vars) {
         return value;
     }
 
