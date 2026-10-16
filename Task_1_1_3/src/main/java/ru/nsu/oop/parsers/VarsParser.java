@@ -1,6 +1,5 @@
 package ru.nsu.oop.parsers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +26,10 @@ public class VarsParser {
             return map;
         }
 
-        List<String> parts = new ArrayList<>(List.of(vars.split(";"))); 
+        List<String> parts = List.of(vars.split(";"));
 
         for (String part : parts) {
-            List<String> pair = new ArrayList<>(List.of(part.split("=")));
+            List<String> pair = List.of(part.split("="));
 
             if (pair.size() != 2) {
                 throw new IllegalArgumentException(
