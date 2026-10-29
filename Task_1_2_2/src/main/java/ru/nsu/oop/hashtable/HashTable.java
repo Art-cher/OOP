@@ -63,16 +63,10 @@ public class HashTable<K, V> {
      * @throws IllegalArgumentException если ключ уже есть в таблице
      */
     public void put(K key, V value) {
-        int index = hash(key);
-        Entry<K, V> current = buckets.get(index);
-
-        while (current != null) {
-            if (Objects.equals(current.key, key)) {
-                throw new IllegalArgumentException("Key already exists: " + key);
-            }
-            current = current.next;
+        if (findEntry(key) != null) {
+            throw new IllegalArgumentException("Key already exists: " + key);
         }
-
+        int index = hash(key);
         buckets.set(index, new Entry<>(key, value, buckets.get(index)));
         size++;
     }
@@ -84,13 +78,59 @@ public class HashTable<K, V> {
      * @return значение или {@code null}
      */
     public V get(K key) {
+        Entry<K, V> entry = findEntry(key);
+        return entry == null ? null : entry.value;
+    }
+
+    /**
+     * Проверяет наличие ключа в таблице. Работает и для ключей со значением
+     * {@code null}.
+     *
+     * @param key ключ
+     * @return {@code true}, если ключ присутствует
+     */
+    public boolean containsKey(K key) {
+        return findEntry(key) != null;
+    }
+
+    /**
+     * Обновляет значение по существующему ключу.
+     *
+     * @param key   ключ
+     * @param value новое значение
+     * @throws IllegalArgumentException если ключа нет в таблице
+     */
+    public void update(K key, V value) {
+        Entry<K, V> entry = findEntry(key);
+        if (entry == null) {
+            throw new IllegalArgumentException("Key not found: " + key);
+        }
+        entry.value = value;
+    }
+
+    /**
+     * Удаляет пару по ключу и возвращает её значение. Если ключа нет —
+     * возвращает {@code null}, не бросает исключение.
+     *
+     * @param key ключ
+     * @return удалённое значение или {@code null}
+     */
+    public V remove(K key) {
         int index = hash(key);
         Entry<K, V> current = buckets.get(index);
+        Entry<K, V> prev = null;
 
         while (current != null) {
             if (Objects.equals(current.key, key)) {
+                if (prev == null) {
+                    buckets.set(index, current.next);
+                } else {
+                    prev.next = current.next;
+                }
+                size--;
                 return current.value;
             }
+            prev = current;
             current = current.next;
         }
         return null;
@@ -104,6 +144,26 @@ public class HashTable<K, V> {
      */
     private int hash(K key) {
         return (Objects.hashCode(key) & 0x7fffffff) % buckets.size();
+    }
+
+    /**
+     * Находит запись по ключу в соответствующем бакете. Возвращает {@code null},
+     * если записи нет.
+     *
+     * @param key ключ
+     * @return запись или {@code null}
+     */
+    private Entry<K, V> findEntry(K key) {
+        int index = hash(key);
+        Entry<K, V> current = buckets.get(index);
+
+        while (current != null) {
+            if (Objects.equals(current.key, key)) {
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
     }
 
     /**
