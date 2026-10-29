@@ -10,6 +10,10 @@ import java.util.Objects;
  * <p>Внутри хранится список бакетов {@code List<Entry<K, V>>}. Каждый элемент
  * этого списка — голова связного списка записей, попавших в один бакет.</p>
  *
+ * <p>При превышении размера {@code size > capacity * loadFactor} таблица
+ * автоматически расширяется вдвое, и все записи перехешируются в новую
+ * таблицу. Это сохраняет амортизированное O(1) на {@code put}/{@code get}.</p>
+ *
  * @param <K> тип ключей
  * @param <V> тип значений
  */
@@ -18,8 +22,11 @@ public class HashTable<K, V> {
     /** Ёмкость по умолчанию — 16 бакетов. */
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
+    /** Порог заполнения — при превышении происходит resize. */
+    private static final double LOAD_FACTOR = 0.75;
+
     /** Список бакетов. {@code buckets.get(i)} — голова i-й цепочки. */
-    private final List<Entry<K, V>> buckets;
+    private List<Entry<K, V>> buckets;
 
     /** Количество пар ключ-значение в таблице. */
     private int size;
@@ -49,6 +56,8 @@ public class HashTable<K, V> {
     }
 
     /**
+     * возвращает количество пар в таблице.
+     *
      * @return количество пар ключ-значение в таблице
      */
     public int size() {
@@ -66,9 +75,12 @@ public class HashTable<K, V> {
         if (findEntry(key) != null) {
             throw new IllegalArgumentException("Key already exists: " + key);
         }
-        int index = hash(key);
-        buckets.set(index, new Entry<>(key, value, buckets.get(index)));
+        putEntry(key, value, buckets, buckets.size());
         size++;
+
+        if (size > buckets.size() * LOAD_FACTOR) {
+            resize();
+        }
     }
 
     /**
@@ -137,13 +149,36 @@ public class HashTable<K, V> {
     }
 
     /**
+     * Возвращает текущее количество бакетов. Package-private — используется
+     * только в тестах для проверки логики resize, не часть публичного API.
+     *
+     * @return текущая ёмкость таблицы
+     */
+    int capacity() {
+        return buckets.size();
+    }
+
+    /**
      * Вычисляет индекс бакета для заданного ключа.
      *
      * @param key ключ
      * @return индекс в диапазоне {@code [0, buckets.size())}
      */
     private int hash(K key) {
-        return (Objects.hashCode(key) & 0x7fffffff) % buckets.size();
+        return hash(key, buckets.size());
+    }
+
+    /**
+     * Вычисляет индекс бакета для заданного ключа при заданной ёмкости.
+     * Ёмкость передаётся явно — это нужно в {@link #resize()}, где индекс
+     * считается для нового массива, ещё не присвоенного {@code buckets}.
+     *
+     * @param key      ключ
+     * @param capacity размер массива бакетов
+     * @return индекс в диапазоне {@code [0, capacity)}
+     */
+    private int hash(K key, int capacity) {
+        return (Objects.hashCode(key) & 0x7fffffff) % capacity;
     }
 
     /**
@@ -167,6 +202,51 @@ public class HashTable<K, V> {
     }
 
     /**
+     * Расширяет таблицу вдвое и перехеширует все записи.
+     *
+     * <p>Порядок внутри бакета меняется: записи переносятся в голову новой
+     * цепочки. Для семантики это не важно — {@code findEntry} обходит всю
+     * цепочку, а не только голову.</p>
+     */
+    private void resize() {
+        List<Entry<K, V>> oldBuckets = buckets;
+        int newCapacity = oldBuckets.size() * 2;
+
+        List<Entry<K, V>> newBuckets = new ArrayList<>(newCapacity);
+        for (int i = 0; i < newCapacity; i++) {
+            newBuckets.add(null);
+        }
+
+        for (Entry<K, V> head : oldBuckets) {
+            Entry<K, V> current = head;
+            while (current != null) {
+                putEntry(current.key, current.value, newBuckets, newCapacity);
+                current = current.next;
+            }
+        }
+
+        buckets = newBuckets;
+    }
+
+    /**
+     * Вставляет пару в целевой массив бакетов. Используется и в
+     * {@link #put(Object, Object)}, и в {@link #resize()}: в обоих случаях
+     * нужно положить запись в голову цепочки нужного бакета.
+     *
+     * <p>Не проверяет дубликаты, не трогает {@code size}, не проверяет порог —
+     * это ответственность вызывающего.</p>
+     *
+     * @param key            ключ
+     * @param value          значение
+     * @param targetBuckets  массив бакетов, в который идёт вставка
+     * @param targetCapacity размер {@code targetBuckets}
+     */
+    private void putEntry(K key, V value, List<Entry<K, V>> targetBuckets, int targetCapacity) {
+        int index = hash(key, targetCapacity);
+        targetBuckets.set(index, new Entry<>(key, value, targetBuckets.get(index)));
+    }
+
+    /**
      * Запись внутри бакета. Хранит пару ключ-значение и ссылку на следующую
      * запись в цепочке.
      *
@@ -185,6 +265,8 @@ public class HashTable<K, V> {
         }
 
         /**
+         * возвращает ключ записи.
+         *
          * @return ключ записи
          */
         public K getKey() {
@@ -192,6 +274,8 @@ public class HashTable<K, V> {
         }
 
         /**
+         * возвращвет значение записи.
+         *
          * @return значение записи
          */
         public V getValue() {

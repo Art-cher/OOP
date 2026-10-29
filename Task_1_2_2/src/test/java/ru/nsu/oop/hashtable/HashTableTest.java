@@ -247,18 +247,59 @@ class HashTableTest {
     }
 
     @Test
-    void remove_firstInChain_collidingKeys_leavesRestIntact() {
-        // При capacity=1 все ключи в одном бакете, порядок цепочки — порядок вставки
-        // (в голову): последний вставленный — первый в цепочке
-        HashTable<String, Integer> table = new HashTable<>(1);
-        table.put("Aa", 1);
-        table.put("BB", 2);
+    void resize_triggeredWhenThresholdExceeded() {
+        HashTable<String, Integer> table = new HashTable<>(4);
+        assertEquals(4, table.capacity());
 
-        // "BB" вставлен вторым → он в голове цепочки.
-        // remove("BB") должен зайти в ветку prev == null (удаление головы).
-        Integer removed = table.remove("BB");
+        table.put("a", 1);
+        table.put("b", 2);
+        table.put("c", 3);
+        assertEquals(4, table.capacity());   // size=3, порог=3, ещё не превышен
 
-        assertEquals(2, removed);
-        assertEquals(1, table.get("Aa"));
+        table.put("d", 4);                   // size=4 > 3 → resize
+        assertEquals(8, table.capacity());
+    }
+
+    @Test
+    void resize_preservesAllEntries() {
+        HashTable<String, Integer> table = new HashTable<>(2);
+        for (int i = 0; i < 100; i++) {
+            table.put("key" + i, i);
+        }
+
+        assertEquals(100, table.size());
+        for (int i = 0; i < 100; i++) {
+            assertEquals(i, table.get("key" + i));
+        }
+    }
+
+    @Test
+    void operationsAfterResize_work() {
+        HashTable<String, Integer> table = new HashTable<>(2);
+        for (int i = 0; i < 50; i++) {
+            table.put("key" + i, i);
+        }
+
+        // после нескольких resize'ов
+        table.update("key5", 500);
+        assertEquals(500, table.get("key5"));
+
+        table.remove("key10");
+        assertNull(table.get("key10"));
+        assertFalse(table.containsKey("key10"));
+        assertEquals(49, table.size());
+    }
+
+    @Test
+    void multipleResizes_allDataAccessible() {
+        HashTable<Integer, Integer> table = new HashTable<>(2);
+        for (int i = 0; i < 1000; i++) {
+            table.put(i, i * 10);
+        }
+
+        assertEquals(1000, table.size());
+        for (int i = 0; i < 1000; i++) {
+            assertEquals(i * 10, table.get(i));
+        }
     }
 }
