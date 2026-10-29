@@ -180,4 +180,85 @@ class HashTableTest {
         assertEquals(1, table.get("a"));
         assertEquals(3, table.get("c"));
     }
+
+    @Test
+    void collisionPremise_aAndBB_HaveSameHashCode() {
+        // Предпосылка для всех тестов ниже.
+        // Если этот тест упадёт — коллизионные тесты ниже проверяют уже не то.
+        assertEquals("Aa".hashCode(), "BB".hashCode());
+    }
+
+    @Test
+    void put_collidingKeys_bothAccessible() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+        table.put("BB", 2);   // тот же hashCode, тот же бакет
+
+        assertEquals(2, table.size());
+        assertEquals(1, table.get("Aa"));
+        assertEquals(2, table.get("BB"));
+    }
+
+    @Test
+    void put_collidingKeys_detectsDuplicate() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+        table.put("BB", 2);
+
+        // "Aa" уже есть, и он в цепочке — либо первый, либо второй, но findEntry
+        // должен пройти всю цепочку и найти его в любом случае
+        assertThrows(IllegalArgumentException.class, () -> table.put("Aa", 100));
+        assertEquals(2, table.size());
+    }
+
+    @Test
+    void containsKey_collidingKeys_distinguishesThem() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+
+        assertTrue(table.containsKey("Aa"));
+        assertFalse(table.containsKey("BB"));  // тот же бакет, другой ключ
+    }
+
+    @Test
+    void update_collidingKeys_changesOnlyTarget() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+        table.put("BB", 2);
+
+        table.update("Aa", 100);
+
+        assertEquals(100, table.get("Aa"));
+        assertEquals(2, table.get("BB"));   // не тронут
+    }
+
+    @Test
+    void remove_collidingKeys_removesOnlyTarget() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+        table.put("BB", 2);
+
+        Integer removed = table.remove("Aa");
+
+        assertEquals(1, removed);
+        assertEquals(1, table.size());
+        assertFalse(table.containsKey("Aa"));
+        assertEquals(2, table.get("BB"));   // остался
+    }
+
+    @Test
+    void remove_firstInChain_collidingKeys_leavesRestIntact() {
+        // При capacity=1 все ключи в одном бакете, порядок цепочки — порядок вставки
+        // (в голову): последний вставленный — первый в цепочке
+        HashTable<String, Integer> table = new HashTable<>(1);
+        table.put("Aa", 1);
+        table.put("BB", 2);
+
+        // "BB" вставлен вторым → он в голове цепочки.
+        // remove("BB") должен зайти в ветку prev == null (удаление головы).
+        Integer removed = table.remove("BB");
+
+        assertEquals(2, removed);
+        assertEquals(1, table.get("Aa"));
+    }
 }
