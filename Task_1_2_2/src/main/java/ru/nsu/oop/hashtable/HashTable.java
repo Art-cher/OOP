@@ -2,6 +2,7 @@ package ru.nsu.oop.hashtable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Параметризованная хеш-таблица с разрешением коллизий методом цепочек.
@@ -52,6 +53,57 @@ public class HashTable<K, V> {
      */
     public int size() {
         return size;
+    }
+
+    /**
+     * Добавляет новую пару ключ-значение в таблицу.
+     *
+     * @param key   ключ
+     * @param value значение
+     * @throws IllegalArgumentException если ключ уже есть в таблице
+     */
+    public void put(K key, V value) {
+        int index = hash(key);
+        Entry<K, V> current = buckets.get(index);
+
+        while (current != null) {
+            if (Objects.equals(current.key, key)) {
+                throw new IllegalArgumentException("Key already exists: " + key);
+            }
+            current = current.next;
+        }
+
+        buckets.set(index, new Entry<>(key, value, buckets.get(index)));
+        size++;
+    }
+
+    /**
+     * Возвращает значение по ключу или {@code null}, если ключа нет.
+     *
+     * @param key ключ
+     * @return значение или {@code null}
+     */
+    public V get(K key) {
+        int index = hash(key);
+        Entry<K, V> current = buckets.get(index);
+
+        while (current != null) {
+            if (Objects.equals(current.key, key)) {
+                return current.value;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    /**
+     * Вычисляет индекс бакета для заданного ключа.
+     *
+     * @param key ключ
+     * @return индекс в диапазоне {@code [0, buckets.size())}
+     */
+    private int hash(K key) {
+        return (Objects.hashCode(key) & 0x7fffffff) % buckets.size();
     }
 
     /**
