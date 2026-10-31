@@ -2,6 +2,13 @@ package ru.nsu.oop.expression;
 
 import java.io.PrintStream;
 import java.util.Map;
+
+import ru.nsu.oop.expression.edges.Add;
+import ru.nsu.oop.expression.edges.Div;
+import ru.nsu.oop.expression.edges.Mul;
+import ru.nsu.oop.expression.edges.Sub;
+import ru.nsu.oop.expression.leaves.Number;
+import ru.nsu.oop.expression.leaves.Variable;
 import ru.nsu.oop.parsers.VarsParser;
 
 /**
@@ -34,5 +41,5 @@ public abstract class Expression {
         return eval(VarsParser.parseVars(vars));
     }
 
-    protected abstract int eval(Map<String, Integer> vars);
+    public abstract int eval(Map<String, Integer> vars);
 }

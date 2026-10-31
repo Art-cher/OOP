@@ -1,4 +1,6 @@
-package ru.nsu.oop.expression;
+package ru.nsu.oop.expression.edges;
+
+import ru.nsu.oop.expression.Expression;
 
 import java.util.Map;
 
@@ -25,7 +27,7 @@ public class Sub extends Expression {
     }
 
     @Override
-    protected int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         return left.eval(vars) - right.eval(vars);
     }
 }

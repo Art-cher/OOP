@@ -1,4 +1,6 @@
-package ru.nsu.oop.expression;
+package ru.nsu.oop.expression.leaves;
+
+import ru.nsu.oop.expression.Expression;
 
 import java.util.Map;
 
@@ -25,7 +27,7 @@ public class Variable extends Expression {
     }
 
     @Override
-    protected int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         Integer value = vars.get(name);
         if (value == null) {
             throw new IllegalArgumentException("Переменная " + name + " не определена");

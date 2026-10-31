@@ -2,13 +2,13 @@ package ru.nsu.oop.parsers;
 
 
 
-import ru.nsu.oop.expression.Add;
-import ru.nsu.oop.expression.Div;
+import ru.nsu.oop.expression.edges.Add;
+import ru.nsu.oop.expression.edges.Div;
 import ru.nsu.oop.expression.Expression;
-import ru.nsu.oop.expression.Mul;
-import ru.nsu.oop.expression.Number;
-import ru.nsu.oop.expression.Sub;
-import ru.nsu.oop.expression.Variable;
+import ru.nsu.oop.expression.edges.Mul;
+import ru.nsu.oop.expression.leaves.Number;
+import ru.nsu.oop.expression.edges.Sub;
+import ru.nsu.oop.expression.leaves.Variable;
 
 /**
  * Парсер математических выражений из строки.

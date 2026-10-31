@@ -1,4 +1,6 @@
-package ru.nsu.oop.expression;
+package ru.nsu.oop.expression.leaves;
+
+import ru.nsu.oop.expression.Expression;
 
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class Number extends Expression {
     }
 
     @Override
-    protected int eval(Map<String, Integer> vars) {
+    public int eval(Map<String, Integer> vars) {
         return value;
     }
 

@@ -7,6 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
+import ru.nsu.oop.expression.edges.Add;
+import ru.nsu.oop.expression.edges.Div;
+import ru.nsu.oop.expression.edges.Mul;
+import ru.nsu.oop.expression.edges.Sub;
+import ru.nsu.oop.expression.leaves.Number;
+import ru.nsu.oop.expression.leaves.Variable;
 import ru.nsu.oop.parsers.ExpressionParser;
 
 /**
@@ -18,7 +24,7 @@ class ExpressionTest {
 
     @Test
     void numberToString() {
-        assertEquals("42", new Number(42).toString());
+        assertEquals("42", new ru.nsu.oop.expression.leaves.Number(42).toString());
     }
 
     @Test
@@ -28,13 +34,13 @@ class ExpressionTest {
 
     @Test
     void complexExpressionToString() {
-        Expression e = new Add(new Number(3), new Mul(new Number(2), new Variable("x")));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(3), new Mul(new ru.nsu.oop.expression.leaves.Number(2), new Variable("x")));
         assertEquals("(3+(2*x))", e.toString());
     }
 
     @Test
     void printToStream() {
-        Expression e = new Add(new Number(3), new Number(4));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(3), new ru.nsu.oop.expression.leaves.Number(4));
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         PrintStream stream = new PrintStream(buffer);
         e.print(stream);
@@ -46,7 +52,7 @@ class ExpressionTest {
 
     @Test
     void numberDerivativeIsZero() {
-        assertEquals("0", new Number(5).derivative("x").toString());
+        assertEquals("0", new ru.nsu.oop.expression.leaves.Number(5).derivative("x").toString());
     }
 
     @Test
@@ -76,20 +82,20 @@ class ExpressionTest {
     @Test
     void mulDerivativeProductRule() {
         // (2 * x)' по x = (0 * x) + (2 * 1)
-        Expression e = new Mul(new Number(2), new Variable("x"));
+        Expression e = new Mul(new ru.nsu.oop.expression.leaves.Number(2), new Variable("x"));
         assertEquals("((0*x)+(2*1))", e.derivative("x").toString());
     }
 
     @Test
     void divDerivativeQuotientRule() {
         // (x / 2)' по x = ((1 * 2) - (x * 0)) / (2 * 2)
-        Expression e = new Div(new Variable("x"), new Number(2));
+        Expression e = new Div(new Variable("x"), new ru.nsu.oop.expression.leaves.Number(2));
         assertEquals("(((1*2)-(x*0))/(2*2))", e.derivative("x").toString());
     }
 
     @Test
     void derivativeDoesNotMutateOriginal() {
-        Expression e = new Add(new Number(3), new Mul(new Number(2), new Variable("x")));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(3), new Mul(new ru.nsu.oop.expression.leaves.Number(2), new Variable("x")));
         e.derivative("x");
         assertEquals("(3+(2*x))", e.toString());
     }
@@ -97,7 +103,7 @@ class ExpressionTest {
     @Test
     void derivativeFromAssignment() {
         // Из условия: e = (3+(2*x)), de/dx = (0 + ((0*x) + (2*1)))
-        Expression e = new Add(new Number(3), new Mul(new Number(2), new Variable("x")));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(3), new Mul(new ru.nsu.oop.expression.leaves.Number(2), new Variable("x")));
         assertEquals("(0+((0*x)+(2*1)))", e.derivative("x").toString());
     }
 
@@ -105,7 +111,7 @@ class ExpressionTest {
 
     @Test
     void evalConstant() {
-        assertEquals(7, new Number(7).eval(""));
+        assertEquals(7, new ru.nsu.oop.expression.leaves.Number(7).eval(""));
     }
 
     @Test
@@ -115,7 +121,7 @@ class ExpressionTest {
 
     @Test
     void evalExampleFromAssignment() {
-        Expression e = new Add(new Number(3), new Mul(new Number(2), new Variable("x")));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(3), new Mul(new ru.nsu.oop.expression.leaves.Number(2), new Variable("x")));
         assertEquals(23, e.eval("x = 10; y = 13"));
     }
 
@@ -123,21 +129,21 @@ class ExpressionTest {
     void evalAllOperations() {
         // ((10 + 5) - 3) * (8 / 4) = 12 * 2 = 24
         Expression e = new Mul(
-                new Sub(new Add(new Number(10), new Number(5)), new Number(3)),
-                new Div(new Number(8), new Number(4))
+                new Sub(new Add(new ru.nsu.oop.expression.leaves.Number(10), new ru.nsu.oop.expression.leaves.Number(5)), new ru.nsu.oop.expression.leaves.Number(3)),
+                new Div(new ru.nsu.oop.expression.leaves.Number(8), new ru.nsu.oop.expression.leaves.Number(4))
         );
         assertEquals(24, e.eval(""));
     }
 
     @Test
     void evalMissingVariableThrows() {
-        Expression e = new Add(new Variable("x"), new Number(1));
+        Expression e = new Add(new Variable("x"), new ru.nsu.oop.expression.leaves.Number(1));
         assertThrows(IllegalArgumentException.class, () -> e.eval("y = 5"));
     }
 
     @Test
     void evalEmptyVarsOnConstantExpression() {
-        Expression e = new Add(new Number(1), new Number(2));
+        Expression e = new Add(new ru.nsu.oop.expression.leaves.Number(1), new Number(2));
         assertEquals(3, e.eval((String) null));
     }
 
