@@ -418,6 +418,7 @@ class HashTableTest {
         assertEquals(100, table.get("one"));
         assertEquals(100, table.get("two"));
     }
+
     @Test
     void equals_sameContentDifferentOrder_true() {
         HashTable<String, Integer> a = new HashTable<>();
@@ -440,9 +441,14 @@ class HashTableTest {
 
         // b пройдёт resize'ы и получит другой capacity
         HashTable<String, Integer> b = new HashTable<>(2);
-        for (int i = 0; i < 100; i++) b.put("k" + i, i);
-        b.remove("k0"); b.remove("k1");
-        for (int i = 2; i < 100; i++) b.remove("k" + i);
+        for (int i = 0; i < 100; i++) {
+            b.put("k" + i, i);
+        }
+        b.remove("k0");
+        b.remove("k1");
+        for (int i = 2; i < 100; i++) {
+            b.remove("k" + i);
+        }
         b.put("one", 1);
         b.put("two", 2);
 
@@ -529,8 +535,12 @@ class HashTableTest {
         a.put("two", 2);
 
         HashTable<String, Integer> b = new HashTable<>(2);
-        for (int i = 0; i < 100; i++) b.put("k" + i, i);
-        for (int i = 0; i < 100; i++) b.remove("k" + i);
+        for (int i = 0; i < 100; i++) {
+            b.put("k" + i, i);
+        }
+        for (int i = 0; i < 100; i++) {
+            b.remove("k" + i);
+        }
         b.put("one", 1);
         b.put("two", 2);
 
