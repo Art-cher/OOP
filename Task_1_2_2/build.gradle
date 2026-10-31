@@ -1,5 +1,14 @@
 plugins {
     id 'java'
+    id 'jacoco'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 group = 'ru.nsu.oop'

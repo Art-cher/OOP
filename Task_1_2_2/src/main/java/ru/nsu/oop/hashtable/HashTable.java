@@ -1,7 +1,10 @@
 package ru.nsu.oop.hashtable;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -17,7 +20,7 @@ import java.util.Objects;
  * @param <K> тип ключей
  * @param <V> тип значений
  */
-public class HashTable<K, V> {
+public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
     /** Ёмкость по умолчанию — 16 бакетов. */
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
@@ -30,6 +33,9 @@ public class HashTable<K, V> {
 
     /** Количество пар ключ-значение в таблице. */
     private int size;
+
+    /** Счётчик структурных модификаций для fail-fast итератора. */
+    private int modCount;
 
     /**
      * Создаёт пустую таблицу с ёмкостью по умолчанию.
@@ -77,6 +83,7 @@ public class HashTable<K, V> {
         }
         putEntry(key, value, buckets, buckets.size());
         size++;
+        modCount++;
 
         if (size > buckets.size() * LOAD_FACTOR) {
             resize();
@@ -140,12 +147,32 @@ public class HashTable<K, V> {
                     prev.next = current.next;
                 }
                 size--;
+                modCount++;
                 return current.value;
             }
             prev = current;
             current = current.next;
         }
         return null;
+    }
+
+    /**
+     * Возвращает fail-fast итератор по записям таблицы.
+     *
+     * <p>Порядок обхода зависит от распределения по бакетам и не совпадает
+     * с порядком вставки. Если во время итерации таблица будет структурно
+     * изменена ({@code put} с новым ключом или {@code remove}), следующий
+     * вызов {@link Iterator#hasNext()} или {@link Iterator#next()} бросит
+     * {@link ConcurrentModificationException}.</p>
+     *
+     * <p>Изменение значения существующего ключа через {@link #update}
+     * структурным изменением не считается — итератор продолжит работать.</p>
+     *
+     * @return итератор по записям
+     */
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
+        return new HashTableIterator();
     }
 
     /**
@@ -244,6 +271,68 @@ public class HashTable<K, V> {
     private void putEntry(K key, V value, List<Entry<K, V>> targetBuckets, int targetCapacity) {
         int index = hash(key, targetCapacity);
         targetBuckets.set(index, new Entry<>(key, value, targetBuckets.get(index)));
+    }
+
+    /**
+     * Fail-fast итератор по записям таблицы.
+     *
+     * <p>При создании запоминает текущее значение {@code modCount} в
+     * {@code expectedModCount}. Если таблица структурно изменится, значения
+     * разойдутся, и следующий вызов {@code hasNext}/{@code next} бросит
+     * {@link ConcurrentModificationException}.</p>
+     */
+    private class HashTableIterator implements Iterator<Entry<K, V>> {
+
+        private final int expectedModCount = modCount;
+        private int bucketIndex = 0;
+        private Entry<K, V> nextEntry = null;
+
+        HashTableIterator() {
+            advance();
+        }
+
+        @Override
+        public boolean hasNext() {
+            checkForComodification();
+            return nextEntry != null;
+        }
+
+        @Override
+        public Entry<K, V> next() {
+            checkForComodification();
+            if (nextEntry == null) {
+                throw new NoSuchElementException("No more entries");
+            }
+            Entry<K, V> result = nextEntry;
+            advance();
+            return result;
+        }
+
+        /**
+         * Сдвигает {@code nextEntry} на следующий элемент: сначала внутри
+         * текущей цепочки, затем ищет следующий непустой бакет.
+         */
+        private void advance() {
+            if (nextEntry != null && nextEntry.next != null) {
+                nextEntry = nextEntry.next;
+                return;
+            }
+            nextEntry = null;
+            while (bucketIndex < buckets.size()) {
+                Entry<K, V> head = buckets.get(bucketIndex);
+                bucketIndex++;
+                if (head != null) {
+                    nextEntry = head;
+                    return;
+                }
+            }
+        }
+
+        private void checkForComodification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
     }
 
     /**

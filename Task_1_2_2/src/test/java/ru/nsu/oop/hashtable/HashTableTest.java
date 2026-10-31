@@ -1,8 +1,19 @@
 package ru.nsu.oop.hashtable;
 
 import org.junit.jupiter.api.Test;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class HashTableTest {
 
@@ -301,5 +312,109 @@ class HashTableTest {
         for (int i = 0; i < 1000; i++) {
             assertEquals(i * 10, table.get(i));
         }
+    }
+
+    @Test
+    void iterator_emptyTable_noElements() {
+        HashTable<String, Integer> table = new HashTable<>();
+        Iterator<HashTable.Entry<String, Integer>> it = table.iterator();
+        assertFalse(it.hasNext());
+    }
+
+    @Test
+    void iterator_singleEntry_returnsIt() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+
+        Iterator<HashTable.Entry<String, Integer>> it = table.iterator();
+        assertTrue(it.hasNext());
+        HashTable.Entry<String, Integer> entry = it.next();
+        assertEquals("one", entry.getKey());
+        assertEquals(1, entry.getValue());
+        assertFalse(it.hasNext());
+    }
+
+    @Test
+    void iterator_multipleEntries_returnsAll() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+        table.put("two", 2);
+        table.put("three", 3);
+
+        List<String> collected = new ArrayList<>();
+        for (HashTable.Entry<String, Integer> entry : table) {
+            collected.add(entry.getKey() + "=" + entry.getValue());
+        }
+
+        Collections.sort(collected);
+        assertEquals(List.of("one=1", "three=3", "two=2"), collected);
+    }
+
+    @Test
+    void iterator_withCollisions_returnsAll() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("Aa", 1);
+        table.put("BB", 2);
+
+        List<String> collected = new ArrayList<>();
+        for (HashTable.Entry<String, Integer> entry : table) {
+            collected.add(entry.getKey() + "=" + entry.getValue());
+        }
+
+        Collections.sort(collected);
+        assertEquals(List.of("Aa=1", "BB=2"), collected);
+    }
+
+    @Test
+    void iterator_nextAfterExhaustion_throws() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+
+        Iterator<HashTable.Entry<String, Integer>> it = table.iterator();
+        it.next();
+        assertFalse(it.hasNext());
+        assertThrows(NoSuchElementException.class, it::next);
+    }
+
+    @Test
+    void iterator_putDuringIteration_throwsCME() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+        table.put("two", 2);
+
+        assertThrows(ConcurrentModificationException.class, () -> {
+            for (HashTable.Entry<String, Integer> entry : table) {
+                table.put("three", 3);
+            }
+        });
+    }
+
+    @Test
+    void iterator_removeDuringIteration_throwsCME() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+        table.put("two", 2);
+
+        assertThrows(ConcurrentModificationException.class, () -> {
+            for (HashTable.Entry<String, Integer> entry : table) {
+                table.remove("one");
+            }
+        });
+    }
+
+    @Test
+    void iterator_updateDuringIteration_doesNotThrow() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+        table.put("two", 2);
+
+        int count = 0;
+        for (HashTable.Entry<String, Integer> entry : table) {
+            table.update(entry.getKey(), 100);
+            count++;
+        }
+        assertEquals(2, count);
+        assertEquals(100, table.get("one"));
+        assertEquals(100, table.get("two"));
     }
 }
