@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class HashTableTest {
 
@@ -416,5 +417,189 @@ class HashTableTest {
         assertEquals(2, count);
         assertEquals(100, table.get("one"));
         assertEquals(100, table.get("two"));
+    }
+    @Test
+    void equals_sameContentDifferentOrder_true() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("one", 1);
+        a.put("two", 2);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("two", 2);
+        b.put("one", 1);
+
+        assertEquals(a, b);
+        assertEquals(b, a);  // симметричность
+    }
+
+    @Test
+    void equals_sameContentDifferentCapacity_true() {
+        HashTable<String, Integer> a = new HashTable<>(2);
+        a.put("one", 1);
+        a.put("two", 2);
+
+        // b пройдёт resize'ы и получит другой capacity
+        HashTable<String, Integer> b = new HashTable<>(2);
+        for (int i = 0; i < 100; i++) b.put("k" + i, i);
+        b.remove("k0"); b.remove("k1");
+        for (int i = 2; i < 100; i++) b.remove("k" + i);
+        b.put("one", 1);
+        b.put("two", 2);
+
+        assertEquals(2, a.size());
+        assertEquals(2, b.size());
+        assertEquals(a, b);
+    }
+
+    @Test
+    void equals_differentValue_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("one", 1);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("one", 999);
+
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void equals_differentSize_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("one", 1);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("one", 1);
+        b.put("two", 2);
+
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void equals_differentKeys_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("one", 1);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("uno", 1);
+
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void equals_null_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        assertNotEquals(null, a);
+    }
+
+    @Test
+    void equals_otherType_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        assertNotEquals("not a table", a);
+    }
+
+    @Test
+    void equals_nullValues_comparedCorrectly() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("x", null);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("x", null);
+
+        assertEquals(a, b);
+    }
+
+    @Test
+    void hashCode_equalTables_sameHash() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("one", 1);
+        a.put("two", 2);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("two", 2);
+        b.put("one", 1);
+
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
+
+    @Test
+    void hashCode_equalTablesDifferentCapacity_sameHash() {
+        HashTable<String, Integer> a = new HashTable<>(2);
+        a.put("one", 1);
+        a.put("two", 2);
+
+        HashTable<String, Integer> b = new HashTable<>(2);
+        for (int i = 0; i < 100; i++) b.put("k" + i, i);
+        for (int i = 0; i < 100; i++) b.remove("k" + i);
+        b.put("one", 1);
+        b.put("two", 2);
+
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
+
+    @Test
+    void toString_empty_returnsBraces() {
+        HashTable<String, Integer> table = new HashTable<>();
+        assertEquals("{}", table.toString());
+    }
+
+    @Test
+    void toString_withEntries_containsPairs() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("one", 1);
+        table.put("two", 2);
+
+        String s = table.toString();
+        assertTrue(s.startsWith("{"));
+        assertTrue(s.endsWith("}"));
+        assertTrue(s.contains("one=1"));
+        assertTrue(s.contains("two=2"));
+    }
+
+    @Test
+    void toString_nullValue_printsNull() {
+        HashTable<String, Integer> table = new HashTable<>();
+        table.put("x", null);
+
+        assertEquals("{x=null}", table.toString());
+    }
+
+    @Test
+    void equals_sameKeyOneValueOneNull_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("x", 1);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("x", null);
+
+        assertNotEquals(a, b);
+        assertNotEquals(b, a);   // симметричность
+    }
+
+    @Test
+    void equals_bothNullAtDifferentKeys_false() {
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("x", null);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("y", null);
+
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void equals_nullValueDoesNotMaskMissingKey_false() {
+        // Ключевой тест: если в equals убрать containsKey, этот случай пройдёт
+        // как равный, хотя таблицы разные.
+        HashTable<String, Integer> a = new HashTable<>();
+        a.put("x", null);
+        a.put("y", 1);
+
+        HashTable<String, Integer> b = new HashTable<>();
+        b.put("y", 1);
+        b.put("z", 2);
+
+        assertNotEquals(a, b);
     }
 }

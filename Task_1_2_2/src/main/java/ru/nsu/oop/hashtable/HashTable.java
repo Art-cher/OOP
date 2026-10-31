@@ -186,6 +186,78 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
     }
 
     /**
+     * Сравнивает две таблицы логически. Таблицы равны, если у них одинаковое
+     * количество пар и для каждой пары {@code (k, v)} из этой таблицы в другой
+     * есть пара с тем же ключом и равным значением.
+     *
+     * <p>Количество бакетов и порядок в цепочках не учитываются: две таблицы с
+     * одинаковыми парами равны, даже если одна прошла больше resize'ов.</p>
+     *
+     * @param object объект для сравнения
+     * @return {@code true}, если таблицы логически равны
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof HashTable<?, ?>)) {
+            return false;
+        }
+
+        @SuppressWarnings("unchecked")
+        HashTable<K, V> other = (HashTable<K, V>) object;
+
+        if (this.size != other.size) {
+            return false;
+        }
+
+        for (Entry<K, V> entry : this) {
+            if (!other.containsKey(entry.key)
+                    || !Objects.equals(other.get(entry.key), entry.value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Вычисляет хеш-код таблицы. Не зависит от порядка пар и от количества
+     * бакетов — только от логического содержимого.
+     *
+     * <p>Вклад каждой пары — {@code keyHash ^ valueHash}. Вклады складываются.</p>
+     *
+     * @return хеш-код
+     */
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        for (Entry<K, V> entry : this) {
+            hash += Objects.hashCode(entry.key) ^ Objects.hashCode(entry.value);
+        }
+        return hash;
+    }
+
+    /**
+     * Возвращает строковое представление таблицы в формате
+     * {@code {key1=value1, key2=value2}}.
+     *
+     * <p>Порядок пар зависит от распределения по бакетам и может отличаться
+     * у двух равных таблиц. Для сравнения используйте {@link #equals(Object)},
+     * а не строки.</p>
+     *
+     * @return строковое представление
+     */
+    @Override
+    public String toString() {
+        List<String> parts = new ArrayList<>(size);
+        for (Entry<K, V> entry : this) {
+            parts.add(entry.key + "=" + entry.value);
+        }
+        return "{" + String.join(", ", parts) + "}";
+    }
+
+    /**
      * Вычисляет индекс бакета для заданного ключа.
      *
      * @param key ключ
@@ -231,25 +303,21 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
     /**
      * Расширяет таблицу вдвое и перехеширует все записи.
      *
-     * <p>Порядок внутри бакета меняется: записи переносятся в голову новой
-     * цепочки. Для семантики это не важно — {@code findEntry} обходит всю
-     * цепочку, а не только голову.</p>
+     * <p>Обход идёт через {@link #iterator()} — он читает {@code buckets} (старый
+     * массив), пока мы наполняем {@code newBuckets}. Присваивание
+     * {@code buckets = newBuckets} происходит <b>после</b> цикла, поэтому итератор
+     * не видит подмены и не бросает {@link ConcurrentModificationException}.</p>
      */
     private void resize() {
-        List<Entry<K, V>> oldBuckets = buckets;
-        int newCapacity = oldBuckets.size() * 2;
+        int newCapacity = buckets.size() * 2;
 
         List<Entry<K, V>> newBuckets = new ArrayList<>(newCapacity);
         for (int i = 0; i < newCapacity; i++) {
             newBuckets.add(null);
         }
 
-        for (Entry<K, V> head : oldBuckets) {
-            Entry<K, V> current = head;
-            while (current != null) {
-                putEntry(current.key, current.value, newBuckets, newCapacity);
-                current = current.next;
-            }
+        for (Entry<K, V> entry : this) {
+            putEntry(entry.key, entry.value, newBuckets, newCapacity);
         }
 
         buckets = newBuckets;
